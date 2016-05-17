@@ -1,0 +1,132 @@
+html, body {
+    overflow: hidden;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    font-family: sans-serif;
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    flex-flow: column;
+}
+
+pre {
+    margin: 0;
+}
+
+h3 {
+    margin: 4px 0px;
+    padding: 4px 0px;
+}
+
+a {
+    color: #cc6600;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+.button {
+    display: inline-block;
+    background-color: #fff;
+    color: #222;
+    text-decoration: none;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
+    vertical-align: center;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.button:hover {
+    background-color: #e6e6e6;
+    border-color: #adadad;
+    text-decoration: none;
+}
+.button:active {
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.125)
+}
+
+header {
+    margin: 5px;
+    padding: 5px;
+    height: 40px;
+    display: table;
+    flex: 0 1 auto;
+}
+
+header #logo {
+    position: relative;
+    top: 6px;
+    height: 30px;
+}
+
+header h1 {
+    margin: 0px 15px 0px 5px;
+    padding: 0px;
+    display: inline-block;
+    font-size: 30px;
+    font-weight: normal;
+}
+
+#controlsWrapper {
+    display: inline-block;
+    margin-left: 10px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#editor {
+    left: 0;
+    right: 0;
+    height: 400px;
+    font-size: 14px;
+    flex: 1 1 auto;
+}
+
+#output {
+    flex: 0 1 150px;
+    background-color: #eee;
+    color: #111;
+    font-family: monospace;
+    padding: 8px;
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+footer {
+    background-color: #d91e0f;
+    flex: 0 1 10px;
+}
+
+#underlay {
+    display: none;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 10;
+}
+
+.dialogCloseBtn {
+    margin-top: 10px;
+}
+
+.dialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    max-width: 800px;
+    background-color: #ddd;
+    color: black;
+    padding: 15px;
+    z-index: 20;
+}
