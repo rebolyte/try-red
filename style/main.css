@@ -130,3 +130,63 @@ footer {
     padding: 15px;
     z-index: 20;
 }
+
+/* Lovingly based on styles GitHub's Primer framework */
+.input-group {
+    display: table;
+}
+
+.input-group input:first-child {
+    bordor-top-right-radius: 0;
+    bordor-bottom-right-radius: 0;
+}
+.input-group input, .input-group-button {
+    display: table-cell;
+    position: relative;
+    width: 100%;
+}
+
+input[type="text"] {
+    padding: 7px 8px;
+    font-size: 17px;
+    color: #333;
+    vertical-align: middle;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
+}
+.input-group-button {
+    width: 1%;
+    vertical-align: middle;
+}
+.input-group-button:last-child .btn {
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.btn {
+    position: relative;
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #333;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #eee;
+    background-image: linear-gradient(#fcfcfc, #eee);
+    border: 1px solid #d5d5d5;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-appearence: none;
+}
+.clippy {
+    margin-top: -3px;
+    position: relative;
+    top: 3px;
+
+}

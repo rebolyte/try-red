@@ -21,6 +21,7 @@
 </header>
 
 <pre id="editor">
+Red []
 s: "Try Red in your browser!"
 foreach w split s " " [
     print w
@@ -34,16 +35,25 @@ foreach w split s " " [
 
 <div id="shareDialog" class="dialog">
     <h3>Share</h3>
-    <div>We're not quite there yet, but this is where you'll get a permalink to the
-    code you've entered, so that you can share it with people and collaborate.</div>
+    <div>Here's a permalink to the code you've entered, so you can share it 
+    with people and collaborate.</div>
+    <div class="input-group">
+        <input id="permalinkFld" type="text" />
+        <span class="input-group-button">
+            <button class="btn" type="button" id="copyBtn">
+                <img class="clippy" src="images/clippy.svg" width="13" alt="Copy to clipboard">
+            </button>
+        </span>
+    </div>
+    <div id="copyStatus"></div>
+    <br>
     <a href="#" class="button dialogCloseBtn">Close</a>
 </div>
 
 <div id="helpDialog" class="dialog">
     <h3>Help</h3>
     <div>Enter some Red code in the editor, and then click the "Run" button or
-    press ctrl+enter. You'll see the result in the area below. No need to enter
-    the "Red []" header, we'll include that for you.</div>
+    press ctrl+enter. You'll see the result in the area below.</div>
     <a href="#" class="button dialogCloseBtn">Close</a>
 </div>
 
@@ -56,8 +66,6 @@ foreach w split s " " [
     non-developers alike, to try out Red.
     <br><br>
     See the code on <a href="https://github.com/rebolyte/try-red">GitHub</a>.
-    <br><br>
-    Coded by <a href="http://twitter.com/rebolyte">James Irwin</a>.
     </div>
     <a href="#" class="button dialogCloseBtn">Close</a>
 </div>
@@ -65,7 +73,8 @@ foreach w split s " " [
 <div id="underlay"></div>
 
 <script src="src/vendor/ace-src-min/ace.js"></script>
-<script src="src/vendor/atomic.min.js"></script>
+<script src="src/vendor/npo.js"></script>
+<script src="src/vendor/clipboard.min.js"></script>
 <script src="src/main.js"></script>
 
 </body>

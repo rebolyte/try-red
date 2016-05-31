@@ -1,4 +1,3 @@
-
 function ready(fn) {
 	if (document.readyState !== 'loading'){
 		fn();
@@ -7,25 +6,82 @@ function ready(fn) {
 	}
 }
 
-// This gives us simple dollar function and event binding
+function request(type, url, data) {
+	return new Promise(function (resolve, reject) {
+		var xhr = new XMLHttpRequest();
+
+		// true = async
+		xhr.open(type, url, true);
+
+		xhr.onreadystatechange = function () {
+			var req;
+			if (xhr.readyState === 4) {
+				req = xhr.responseText;
+				if (xhr.status >= 200 && xhr.status < 300) {
+					resolve(req);
+				} else {
+					reject(req);
+				}
+			}
+		};
+
+		xhr.send(data);
+	});
+}
+
+var get = request.bind(this, 'GET');
+var post = request.bind(this, 'POST');
+
 var $ = document.querySelector.bind(document);
 var $$ = document.querySelectorAll.bind(document);
 Node.prototype.on = Node.prototype.addEventListener;
-// Usage:
-// $('#element').on('touchstart', handleTouch, false);
-// $$('.element')[0].on('touchstart', handleTouch, false);
 
+function getQueryVar(variable) {
+	var query = window.location.href.split('?')[1];
+	if (!query) {
+		return false;
+	}
+	var vars = query.split('&');
+	for (var i = 0; i < vars.length; i++) {
+		var pair = vars[i].split('=');
+		if (pair[0] === variable) {
+			return pair[1];
+		}
+	}
+	return false;
+}
+
+
+// ---------------------------------------------------------------------------
+
+var editor = ace.edit('editor');
 
 function executeCode(code) {
-	atomic.post('/cgi-bin/eval.cgi', code)
-		.success(function (data, xhr) {
-			$('#output').innerHTML = data;
-		})
-		.error(function (data, xhr) {
-			$('#output').innerHTML = 'There was a problem evaluating your code.';
-			console.error(data, xhr);
-		})
-		.always(function (data, xhr) {});
+	post('/cgi-bin/eval.cgi', code).then(function (resp) {
+		$('#output').innerHTML = resp;
+	}).catch(function (err) {
+		$('#output').innerHTML = 'There was a problem evaluating your code.';
+		console.error(err);
+	});
+}
+
+function shareCode(code) {
+	post('/cgi-bin/share.cgi', code).then(function (resp) {
+		$('#permalinkFld').value = 'http://localhost/try-red/?s=' + resp;
+		showDialog($('#shareDialog'));
+	}).catch(function (err) {
+		$('#output').innerHTML = 'There was a problem sharing your code.';
+		console.error(err);
+	});
+}
+
+function loadCode(id) {
+	get('/cgi-bin/get.cgi?s=' + id).then(function (resp) {
+		editor.setValue(resp);
+	}).catch(function (err) {
+		$('#output').innerHTML = 'There was a problem loading this code.';
+		console.error(err);
+	});
 }
 
 function showDialog(node) {
@@ -38,7 +94,6 @@ function hideDialog(node) {
 }
 
 function init() {
-	var editor = ace.edit('editor');
 	editor.setTheme('ace/theme/twilight');
 	editor.session.setMode('ace/mode/plain_text');
 
@@ -52,7 +107,7 @@ function init() {
 	});
 
 	$('#shareBtn').on('click', function (evt) {
-		showDialog($('#shareDialog'));
+		shareCode(editor.getValue());
 	});
 
 	$('#helpBtn').on('click', function (evt) {
@@ -67,7 +122,33 @@ function init() {
 		node.on('click', function (evt) {
 			hideDialog(node.parentNode);
 		})
-	});	
+	});
+
+	var clipboard = new Clipboard('#copyBtn', {
+		target: function () {
+			return $('#permalinkFld');
+		}
+	});
+
+	clipboard.on('success', function(e) {
+		$('#copyStatus').innerHTML = 'Copied!';
+		setTimeout(function () {
+			$('#copyStatus').innerHTML = '';
+		}, 2000);
+		e.clearSelection();
+	});
+
+	clipboard.on('error', function(e) {
+		$('#copyStatus').innerHTML = 'Not copied. Press Cmd+C to copy.';
+		setTimeout(function () {
+			$('#copyStatus').innerHTML = '';
+		}, 2000);
+	});
+
+	var sId = getQueryVar('s');
+	if (sId) {
+		loadCode(sId);
+	}
 }
 
 
@@ -79,6 +160,7 @@ if (('flexWrap' in d) || ('WebkitFlexWrap' in d) || ('msFlexWrap' in d)){
 	alert("You don't appear to be using a browser that supports flexbox. Things may still function, but you will most likely see layout issues.");
 }
 
+// Checks for IE 8
 var test = {
 	addEventListener : !!window.addEventListener,
 	querySelectorAll : !!document.querySelectorAll,
