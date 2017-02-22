@@ -3,7 +3,10 @@ html, body {
     height: 100%;
     margin: 0px;
     padding: 0px;
-    font-family: sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0.02em;
     background-color: #333;
     color: #fff;
     display: flex;
@@ -91,7 +94,7 @@ header h1 {
     flex: 0 1 150px;
     background-color: #eee;
     color: #111;
-    font-family: monospace;
+    font: 13px Monaco, Menlo, Ubuntu Mono, Consolas, 'source-code-pro', monospace;
     padding: 8px;
     max-height: 200px;
     overflow-y: scroll;
