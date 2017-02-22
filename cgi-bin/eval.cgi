@@ -10,6 +10,7 @@ do %safe.reb
 print "Content-type: text/plain^/"
 ; print system/options/cgi/request-method
 ; do read-cgi
+
 code: read-cgi
 either is-safe? load code [
 	tmp-file: to file! rejoin [generate-id ".red"]
@@ -44,17 +45,21 @@ either is-safe? load code [
 ; 	foreach line lines [
 ; 		parsed: parse line none
 ; 		cmd: skip parsed 10
-; 		print mold cmd
-; 		if (find cmd = "ps -aux") [
-; 			print "That's it!"
+; 		; print mold cmd
+; 		if ((first cmd) = "redlang") [
+; 			; nest this since some processes don't have a filename
+; 			if ((second cmd) = filename) [
+; 				; print "That's it!"
+; 				print mold parsed
+; 				return reduce [
+; 					'pid to integer! parsed/2
+; 					'cpu to decimal! parsed/3
+; 					'mem to integer! parsed/6
+; 				]
+; 			]
 ; 		]
 ; 	]
-; 	; print mold parsed
-; 	return reduce [
-; 		'pid to integer! parsed/2
-; 		'cpu to decimal! parsed/3
-; 		'mem to integer! parsed/6
-; 	]
+
 ; ]
 
 ; stats: get-stats "test.red"
